@@ -131,21 +131,37 @@ def time_stats(df, month, day):
     print('-'*40)
 #definition of the most popular stations and trip function
 def station_stats(df):
-    print('\nCalculating The Most Popular Stations and Trip...\n')
-    start_time = time.time()
-    # display most commonly used start station
-    popular_start_station=df['Start Station'].mode()[0]
-    print('Most Popular Start Station:',popular_start_station)
-    # display most commonly used end station
-    popular_end_station=df['End Station'].mode()[0]
-    print('Most Popular End Station:',popular_end_station)
-    # display most frequent combination of start station and end station trip
-    df['Start End'] = df['Start Station'].map(str) + '&' + df['End Station']
-    popular_start_end = df['Start End'].value_counts().idxmax()
-    print('Most Popular most frequent combination of start station and end station: ',popular_start_end)
+    """Displays statistics on the most popular stations and trip."""
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
+    print('  Most Popular Stations and Trip...')
+    start_time = time.time()
+
+    filtered_rides = len(df)
+
+    # display most commonly used start station
+    start_station = df['Start Station'].mode()[0]
+    start_station_trips = df['Start Station'].value_counts()[start_station]
+
+    print('    Start station:       ', start_station)
+    print('{0:30}{1}/{2} trips'.format(' ', start_station_trips, filtered_rides))
+
+    # display most commonly used end station
+    end_station = df['End Station'].mode()[0]
+    end_station_trips = df['End Station'].value_counts()[end_station]
+
+    print('    End station:         ', end_station)
+    print('{0:30}{1}/{2} trips'.format(' ', end_station_trips, filtered_rides))
+
+    # display most frequent combination of start station and end station trip
+    # group the results by start station and end station
+    df_start_end_combination_gd = df.groupby(['Start Station', 'End Station'])
+    most_freq_trip_count = df_start_end_combination_gd['Trip Duration'].count().max()
+    most_freq_trip = df_start_end_combination_gd['Trip Duration'].count().idxmax()
+
+    print('    Frequent trip:        {}, {}'.format(most_freq_trip[0], most_freq_trip[1]))
+    print('{0:30}{1} trips'.format(' ', most_freq_trip_count))
+
+    print_processing_time(start_time)
 #definition of trip duration stats function
 def trip_duration_stats(df):
     """Displays statistics on the total and average trip duration."""
@@ -203,6 +219,9 @@ def main():
             print(df.iloc[start:end])
             start+=5
             end+=5
+	
+	
+	
             
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         restart = restart.lower()
