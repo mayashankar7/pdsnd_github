@@ -203,6 +203,9 @@ def main():
             print(df.iloc[start:end])
             start+=5
             end+=5
+	
+	
+	
             
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         restart = restart.lower()
