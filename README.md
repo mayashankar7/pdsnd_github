@@ -2,14 +2,15 @@
 Include the date you created this project and README file.
 
 ### Project Title
-Replace the Project Title
+push your work on github
 
 ### Description
-Describe what your project is about and what it does
+its is all about git and github
 
 ### Files used
-Include the files used
+explore us bikeshare data
+github documentation page
 
 ### Credits
-It's important to give proper credit. Add links to any repo that inspired you or blogposts you consulted.
-
+google
+github
